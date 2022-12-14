@@ -29,4 +29,9 @@ public class ClientController {
        return clientService.ListUniqClient(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente Não Encontrado"));
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Clients Update(@PathVariable("id") Long id, @RequestBody Clients clients){
+        return clientService.UpdateById(id, clients);
+    }
 }
