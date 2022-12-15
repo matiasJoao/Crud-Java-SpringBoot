@@ -17,21 +17,38 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Clients save(@RequestBody Clients clients){
+    public Clients save(@RequestBody Clients clients) {
         return clientService.save(clients);
     }
+
     @GetMapping
-    public List<Clients> ListClients(){
+    public List<Clients> ListClients() {
         return clientService.ListClients();
     }
+
     @GetMapping("/{id}")
-    public Clients SearchId(@PathVariable("id") Long id){
-       return clientService.ListUniqClient(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente Não Encontrado"));
+    public Clients SearchId(@PathVariable("id") Long id) {
+        return clientService.ListUniqClient(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente Não Encontrado"));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Clients Update(@PathVariable("id") Long id, @RequestBody Clients clients){
+    public Clients Update(@PathVariable("id") Long id, @RequestBody Clients clients) {
         return clientService.UpdateById(id, clients);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public  String delete( @PathVariable  Long id) {
+        clientService.delete(id);
+        String msg;
+        msg ="Deletado com sucesso";
+        return msg;
+    }
+    @PatchMapping("/{id}/{email}")
+    public Clients UpdateEmail(@PathVariable("id") Long id, @PathVariable("email") String email){
+       Clients clients = SearchId(id);
+       clients.setEmail(email);
+       return clientService.save(clients);
     }
 }
