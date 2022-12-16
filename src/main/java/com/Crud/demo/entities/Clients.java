@@ -23,5 +23,5 @@ public class Clients {
     private String email;
 
     @Column(name = "tb_cpf")
-    private Number cpf;
+    private String cpf;
 }

@@ -5,8 +5,8 @@ import com.Crud.demo.helpers.RegexHelper;
 import com.Crud.demo.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service
 public class ClientService {
@@ -26,24 +26,34 @@ public class ClientService {
     public Clients UpdateById(Long id, Clients clients){
         return clientRepository.save(clients);
     }
-    public void delete(Long id){
+    public String  delete(Long id){
         clientRepository.deleteById(id);
+        String msg = "deletado com sucesso";
+        return msg;
     }
 
-    public String emailVerify(String email, Clients clients){
-        Boolean verify;
+    public String verifyEmailCpfName(String email, String cpf, String name, Clients clients){
+
+        Boolean verifyEmail, verifyCpf, verifyName ;
         String msg;
+
         RegexHelper regexHelper = new RegexHelper();
-        verify = regexHelper.email(email);
-        if(verify){
+
+        verifyName = regexHelper.nomeValidation(name);
+        verifyEmail = regexHelper.email(email);
+        verifyCpf = regexHelper.cpfValidation(cpf);
+
+        if(verifyEmail && verifyCpf && verifyName){
             msg = "Cadastrado com sucesso";
             clientRepository.save(clients);
         }
         else {
-            msg = "Email invalido";
+            msg = "Email invalido ou Cpf invalido ou Nome invalido";
         }
+
         return msg;
     }
+
 
 
 }

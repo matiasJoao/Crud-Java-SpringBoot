@@ -19,7 +19,9 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     public String save(@RequestBody Clients clients) {
        String email = clients.getEmail();
-       return clientService.emailVerify(email, clients);
+       String cpf = clients.getCpf();
+       String name = clients.getName();
+       return clientService.verifyEmailCpfName(email, cpf, name, clients);
     }
 
     @GetMapping
@@ -41,10 +43,8 @@ public class ClientController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public  String delete( @PathVariable  Long id) {
-        clientService.delete(id);
-        String msg;
-        msg ="Deletado com sucesso";
-        return msg;
+        SearchId(id);
+       return clientService.delete(id);
     }
     @PatchMapping("/{id}/{email}")
     public Clients UpdateEmail(@PathVariable("id") Long id, @PathVariable("email") String email){
