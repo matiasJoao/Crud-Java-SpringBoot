@@ -1,6 +1,7 @@
 package com.Crud.demo.services;
 
 import com.Crud.demo.entities.Clients;
+import com.Crud.demo.helpers.RegexHelper;
 import com.Crud.demo.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,21 @@ public class ClientService {
     public void delete(Long id){
         clientRepository.deleteById(id);
     }
+
+    public String emailVerify(String email, Clients clients){
+        Boolean verify;
+        String msg;
+        RegexHelper regexHelper = new RegexHelper();
+        verify = regexHelper.email(email);
+        if(verify){
+            msg = "Cadastrado com sucesso";
+            clientRepository.save(clients);
+        }
+        else {
+            msg = "Email invalido";
+        }
+        return msg;
+    }
+
 
 }

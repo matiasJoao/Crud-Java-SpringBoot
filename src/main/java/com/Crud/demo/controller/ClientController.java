@@ -17,8 +17,9 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Clients save(@RequestBody Clients clients) {
-        return clientService.save(clients);
+    public String save(@RequestBody Clients clients) {
+       String email = clients.getEmail();
+       return clientService.emailVerify(email, clients);
     }
 
     @GetMapping
